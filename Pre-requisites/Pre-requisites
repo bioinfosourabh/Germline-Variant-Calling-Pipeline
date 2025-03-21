@@ -1,0 +1,30 @@
+
+#Download human reference genome file
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz
+gunzip hg38.fa.gz
+
+#Download known variants to mark during variant calling and filtering from dbSNP FTP Server
+wget ftp://ftp.ncbi.nlm.nih.gov/snp/latest_release/VCF/00-All.vcf.gz
+gunzip 00-All.vcf.gz
+
+#optional: Once you have the dbsnp.vcf.gz file, you can index it using bcftools or tabix for efficient access:
+sudo apt-get install bcftools tabix
+tabix -p vcf dbsnp.vcf.gz
+
+#Obtain the somatic-hg38_1000g_pon.hg38.vcf file 
+#The Panel of Normals containing variants from a set of healthy individuals from 1000 genome project to filter out common genetic variants in cancer studies. 
+#Distinguish between somatic and germline or common variants
+wget ftp://ftp.1000genomes.ebi.ac.uk/vol1/ftp/release/20130502/
+
+#Download gnomAD VCF from Board Institute 
+#This file would contain variants that meet specific allele frequency thresholds for rare or common variants in the population depending on the requirements.
+wget https://storage.googleapis.com/genomics-public-data/gnomad/release/3.0/VCF/gnomad.genomes.r3.0.sites.vcf.bgz
+gunzip gnomad.genomes.r3.0.sites.vcf.bgz
+
+#Download known indels for BQSR step:
+#(1) contains known indel sites observed in multiple individuals across different datasets. 
+https://storage.cloud.google.com/genomics-public-data/resources/broad/hg38/v0/Homo_sapiens_assembly38.known_indels.vcf.gz
+https://storage.cloud.google.com/genomics-public-data/resources/broad/hg38/v0/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
+or
+wget ftp://ftp.broadinstitute.org/pub/gatk/legacy/bundle/hg38/known_indels/Homo_sapiens_assembly38.known_indels.vcf.gz
+wget ftp://ftp.broadinstitute.org/pub/gatk/legacy/bundle/hg38/known_indels/Mills_and_1000G_gold_standard.indels.hg38.vcf.gz
